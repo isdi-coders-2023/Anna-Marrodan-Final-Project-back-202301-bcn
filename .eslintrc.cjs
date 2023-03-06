@@ -15,5 +15,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  rules: {},
+  rules: {
+    "no-implicit-coercion": [2, { number: false }],
+  },
 };
