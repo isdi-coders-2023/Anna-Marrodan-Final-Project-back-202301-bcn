@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "build:dev": "tsc --watch",
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
     "mongoose": "^7.0.0"
   }
 }

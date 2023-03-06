@@ -3,7 +3,7 @@ import createDebug from "debug";
 
 const debug = createDebug("users:database");
 
-export const donnectDatabase = async (mongooseUrl: string) => {
+export const connectDatabase = async (mongooseUrl: string) => {
   mongoose.set("strictQuery", false);
   try {
     await mongoose.connect(mongooseUrl);
