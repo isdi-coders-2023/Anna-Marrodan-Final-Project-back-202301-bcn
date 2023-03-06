@@ -7,9 +7,15 @@
     "build": "tsc",
     "build:dev": "tsc --watch",
     "start": "node dist",
-    "start:dev": "node --watch dist"
+    "start:dev": "node --watch dist",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4",
+    "husky": "^8.0.0"
+  }
 }
