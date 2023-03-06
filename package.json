@@ -1,0 +1,15 @@
+{
+  "name": "back-anna-marrodan-final-project-202301-bcn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc --watch",
+    "start": "node dist",
+    "start:dev": "node --watch dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
