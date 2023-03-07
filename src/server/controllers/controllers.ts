@@ -2,10 +2,9 @@ import "../../loadEnvironment.js";
 import { type Response, type Request, type NextFunction } from "express";
 import bcryptjs from "bcryptjs";
 import jwt, { type JwtPayload } from "jsonwebtoken";
-
-import { CustomError } from "../../CustomError/CustomError";
+import { CustomError } from "../../CustomError/CustomError.js";
 import { type UserCredentials } from "../../types";
-import { User } from "../../database/models/User";
+import { User } from "../../database/models/User.js";
 
 export const loginUser = async (
   req: Request<

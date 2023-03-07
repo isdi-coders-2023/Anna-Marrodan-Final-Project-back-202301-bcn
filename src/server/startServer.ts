@@ -1,7 +1,7 @@
 import createDebug from "debug";
 import { app } from "./app.js";
 
-const debug = createDebug("users:startServer");
+const debug = createDebug("plantips_api:startServer");
 
 export const startServer = async (port: number) =>
   new Promise((resolve, reject) => {
