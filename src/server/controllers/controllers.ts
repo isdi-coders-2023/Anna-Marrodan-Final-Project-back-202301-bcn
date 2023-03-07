@@ -1,23 +1,25 @@
+import "../../loadEnvironment.js";
 import { type Response, type Request, type NextFunction } from "express";
 import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 
 import { CustomError } from "../../CustomError/CustomError";
-import { LoginUser } from "../../database/models/User";
-import { type LoginUserStructure } from "../../types";
+import { type UserCredentials } from "../../types";
+import { User } from "../../database/models/User";
 
-const loginUser = async (
+export const loginUser = async (
   req: Request<
     Record<string, unknown>,
     Record<string, unknown>,
-    LoginUserStructure
+    UserCredentials
   >,
   res: Response,
   next: NextFunction
 ) => {
   const { username, password } = req.body;
+
   try {
-    const user = await LoginUser.findOne({ username });
+    const user = await User.findOne({ username }).exec();
 
     if (!user) {
       const error = new CustomError("User not found", 401, "Wrong credentials");
@@ -34,8 +36,9 @@ const loginUser = async (
       return;
     }
 
-    const jwtPayload = {
-      sub: user._id,
+    const jwtPayload: JwtPayload = {
+      username: user.username,
+      sub: user._id.toString(),
     };
 
     const token = jwt.sign(jwtPayload, process.env.JWT_SECRET!, {
@@ -43,7 +46,7 @@ const loginUser = async (
     });
 
     res.status(200).json({ token });
-  } catch (error) {
+  } catch (error: unknown) {
     next(error);
   }
 };
