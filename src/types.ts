@@ -1,5 +1,4 @@
-export interface LoginUserStructure {
+export interface UserCredentials {
   username: string;
   password: string;
-  email: string;
 }
