@@ -2,7 +2,7 @@ import "../loadEnvironment.js";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { usersRouter } from "../routes/router.js";
+import { usersRouter } from "../router/usersRouter.js";
 
 export const app = express();
 
@@ -23,4 +23,4 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 
-app.use("/plantips", usersRouter);
+app.use("/users", usersRouter);
