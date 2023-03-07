@@ -18,4 +18,4 @@ export const loginUserSchema = new Schema({
   },
 });
 
-export const User = model("User", loginUserSchema, "users");
+export const LoginUser = model("User", loginUserSchema, "users");
