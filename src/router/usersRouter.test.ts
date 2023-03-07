@@ -26,20 +26,17 @@ afterEach(async () => {
 
 const loginEndpoint = "/users/login";
 
-const mockedCredentials: UserCredentials = {
+const mockUser: UserCredentials = {
   username: "Daisy",
   password: "12345678",
 };
 
 describe("Given a POST '/users/login' endpoint", () => {
-  describe("When it receives a request to log an existing user with username 'Plantlover' and password '12345678'", () => {
+  describe("When it receives a request to login a user with username 'Daisy' and password '12345678'", () => {
     test("Then it should respond with a token", async () => {
       const expectedStatus = 200;
       const mocken = "ThisIsAMockedTocken";
-      const hashedPassword = await bcryptsjs.hash(
-        mockedCredentials.password,
-        8
-      );
+      const hashedPassword = await bcryptsjs.hash(mockUser.password, 8);
 
       await User.create({
         username: "Daisy",
@@ -49,10 +46,49 @@ describe("Given a POST '/users/login' endpoint", () => {
       jsw.sign = jest.fn().mockReturnValue(mocken);
       const response = await request(app)
         .post(loginEndpoint)
-        .send(mockedCredentials)
+        .send(mockUser)
         .expect(expectedStatus);
 
       expect(response.body).toHaveProperty("token", mocken);
+    });
+  });
+
+  describe("When it receives a request to login a user with username 'Daisy' and a wrong password '12345699'", () => {
+    test("Then it should respond with the method status 401", async () => {
+      const expectedStatus = 401;
+      const expectedMessage = "Wrong credentials";
+      const wrongPassword = "12345699";
+      const wrongHashedPassword = await bcryptsjs.hash(wrongPassword, 8);
+
+      await User.create({
+        username: "Daisy",
+        password: wrongHashedPassword,
+        email: "hi@daisy.com",
+      });
+      const response = await request(app)
+        .post(loginEndpoint)
+        .send(mockUser)
+        .expect(expectedStatus);
+
+      expect(response.body).toHaveProperty("error", expectedMessage);
+    });
+  });
+
+  describe("When it receives a request to login a non-existing user with username 'Rose' and  password '12345677'", () => {
+    test("Then it should respond with the method status 401", async () => {
+      const expectedStatus = 401;
+      const expectedMessage = "Wrong credentials";
+      const nonRegisteredUser: UserCredentials = {
+        username: "Rose",
+        password: "12345677",
+      };
+
+      const response = await request(app)
+        .post(loginEndpoint)
+        .send(nonRegisteredUser)
+        .expect(expectedStatus);
+
+      expect(response.body).toHaveProperty("error", expectedMessage);
     });
   });
 });
