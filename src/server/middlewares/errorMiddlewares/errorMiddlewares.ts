@@ -3,7 +3,7 @@ import { type NextFunction, type Request, type Response } from "express";
 
 import { CustomError } from "../../../CustomError/CustomError";
 
-const debug = createDebug("users:error");
+const debug = createDebug("plantips_api:error");
 
 export const notFoundError = (
   req: Request,
