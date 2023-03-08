@@ -1,22 +1,23 @@
-import { type Response, type Request } from "express";
+import { type Response, type Request, response } from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
-import { User } from "../../database/models/User";
-import { type UserCredentials } from "../../types";
-import { loginUser } from "./controllers";
-import { CustomError } from "../../CustomError/CustomError";
+import { User } from "../../../database/models/User";
+import { type UserCredentials } from "../../../types";
+import { loginUser } from "./userControllers";
+import { CustomError } from "../../../CustomError/CustomError";
 
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
-const req = {} as Request<
-  Record<string, unknown>,
-  Record<string, unknown>,
-  UserCredentials
->;
-const res: Partial<Response> = { status: jest.fn().mockReturnThis() };
+const req: Partial<
+  Request<Record<string, unknown>, Record<string, unknown>, UserCredentials>
+> = {};
+const res: Partial<Response> = {
+  status: jest.fn().mockReturnThis(),
+  json: jest.fn(),
+};
 const next = jest.fn();
 
 const mockUser: UserCredentials = {
@@ -33,7 +34,15 @@ describe("Given a loginUser controller", () => {
       User.findOne = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue(undefined),
       }));
-      await loginUser(req, res as Response, next);
+      await loginUser(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserCredentials
+        >,
+        res as Response,
+        next
+      );
 
       expect(next).toHaveBeenCalledWith(error);
     });
@@ -44,6 +53,7 @@ describe("Given a loginUser controller", () => {
       req.body = mockUser;
       const expectedStatus = 200;
       const mocken = "thisisafaketoken";
+      const expectedMocken = { token: mocken };
 
       User.findOne = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue({
@@ -54,9 +64,18 @@ describe("Given a loginUser controller", () => {
 
       bcryptjs.compare = jest.fn().mockResolvedValue(true);
       jwt.sign = jest.fn().mockReturnValue(mocken);
-      await loginUser(req, res as Response, next);
+      await loginUser(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserCredentials
+        >,
+        res as Response,
+        next
+      );
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith(expectedMocken);
     });
   });
 
@@ -73,7 +92,15 @@ describe("Given a loginUser controller", () => {
       }));
 
       bcryptjs.compare = jest.fn().mockResolvedValue(false);
-      await loginUser(req, res as Response, next);
+      await loginUser(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserCredentials
+        >,
+        res as Response,
+        next
+      );
 
       expect(next).toHaveBeenCalledWith(error);
     });
