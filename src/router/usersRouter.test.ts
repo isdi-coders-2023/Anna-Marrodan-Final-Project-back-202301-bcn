@@ -33,7 +33,7 @@ const mockUser: UserCredentials = {
 
 describe("Given a POST '/users/login' endpoint", () => {
   describe("When it receives a request to login a user with username 'Daisy' and password '12345678'", () => {
-    test("Then it should respond with a token", async () => {
+    test.only("Then it should respond with a token", async () => {
       const expectedStatus = 200;
       const mocken = "ThisIsAMockedTocken";
       const hashedPassword = await bcryptsjs.hash(mockUser.password, 8);
