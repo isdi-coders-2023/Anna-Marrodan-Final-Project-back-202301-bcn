@@ -3,10 +3,10 @@ import request from "supertest";
 import mongoose from "mongoose";
 import bcryptsjs from "bcryptjs";
 import jsw, { TokenExpiredError } from "jsonwebtoken";
-import { connectDatabase } from "../database/connectDatabase";
-import { User } from "../database/models/User";
-import { type UserCredentials } from "../types";
-import { app } from "../server/app";
+import { connectDatabase } from "../../database/connectDatabase";
+import { User } from "../../database/models/User";
+import { type UserCredentials } from "../../types";
+import { app } from "../app";
 
 let server: MongoMemoryServer;
 
@@ -33,7 +33,7 @@ const mockUser: UserCredentials = {
 
 describe("Given a POST '/users/login' endpoint", () => {
   describe("When it receives a request to login a user with username 'Daisy' and password '12345678'", () => {
-    test.only("Then it should respond with a token", async () => {
+    test("Then it should respond with a token", async () => {
       const expectedStatus = 200;
       const mocken = "ThisIsAMockedTocken";
       const hashedPassword = await bcryptsjs.hash(mockUser.password, 8);

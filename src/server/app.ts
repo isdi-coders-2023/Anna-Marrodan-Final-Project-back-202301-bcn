@@ -2,7 +2,7 @@ import "../loadEnvironment.js";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { usersRouter } from "../router/usersRouter.js";
+import { usersRouter } from "./router/usersRouter.js";
 import {
   generalError,
   notFoundError,

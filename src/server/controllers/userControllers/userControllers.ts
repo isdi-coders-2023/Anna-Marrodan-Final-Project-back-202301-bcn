@@ -1,10 +1,10 @@
-import "../../loadEnvironment.js";
+import "../../../loadEnvironment.js";
 import { type Response, type Request, type NextFunction } from "express";
 import bcryptjs from "bcryptjs";
 import jwt, { type JwtPayload } from "jsonwebtoken";
-import { CustomError } from "../../CustomError/CustomError.js";
-import { type UserCredentials } from "../../types";
-import { User } from "../../database/models/User.js";
+import { CustomError } from "../../../CustomError/CustomError.js";
+import { type UserCredentials } from "../../../types";
+import { User } from "../../../database/models/User.js";
 
 export const loginUser = async (
   req: Request<
@@ -22,17 +22,14 @@ export const loginUser = async (
 
     if (!user) {
       const error = new CustomError("User not found", 401, "Wrong credentials");
-      next(error);
-      return;
+      throw error;
     }
 
     const passwordComparer = await bcryptjs.compare(password, user.password);
 
     if (!passwordComparer) {
       const error = new CustomError("Wrong password", 401, "Wrong credentials");
-
-      next(error);
-      return;
+      throw error;
     }
 
     const jwtPayload: JwtPayload = {
