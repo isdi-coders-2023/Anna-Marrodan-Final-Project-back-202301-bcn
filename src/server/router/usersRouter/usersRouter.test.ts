@@ -3,10 +3,10 @@ import request from "supertest";
 import mongoose from "mongoose";
 import bcryptsjs from "bcryptjs";
 import jsw, { TokenExpiredError } from "jsonwebtoken";
-import { connectDatabase } from "../../database/connectDatabase";
-import { User } from "../../database/models/User";
-import { type UserCredentials } from "../../types";
-import { app } from "../app";
+import { connectDatabase } from "../../../database/connectDatabase";
+import { User } from "../../../database/models/User";
+import { type UserCredentials } from "../../../types";
+import { app } from "../../app";
 
 let server: MongoMemoryServer;
 
@@ -24,14 +24,14 @@ afterEach(async () => {
   await User.deleteMany();
 });
 
-const loginEndpoint = "/users/login";
+const loginEndpoint = "/plantips/login";
 
 const mockUser: UserCredentials = {
   username: "Daisy",
   password: "12345678",
 };
 
-describe("Given a POST '/users/login' endpoint", () => {
+describe("Given a POST '/plantips/login' endpoint", () => {
   describe("When it receives a request to login a user with username 'Daisy' and password '12345678'", () => {
     test("Then it should respond with a token", async () => {
       const expectedStatus = 200;

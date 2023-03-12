@@ -1,6 +1,6 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { CustomError } from "../../../CustomError/CustomError";
-import { Tip } from "../../../database/models/Tip";
+import { CustomError } from "../../../CustomError/CustomError.js";
+import { Tip } from "../../../database/models/Tip.js";
 
 export const getTips = async (
   req: Request,
