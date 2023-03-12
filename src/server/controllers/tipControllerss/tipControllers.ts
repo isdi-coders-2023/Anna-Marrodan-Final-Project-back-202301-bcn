@@ -14,7 +14,7 @@ export const getTips = async (
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
-      500,
+      400,
       "Couldn't retrieve tips"
     );
 
